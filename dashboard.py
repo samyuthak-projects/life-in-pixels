@@ -14,5 +14,3 @@ class Dashboard:
         self.subtitle.pack(pady=10)
 
         self.window.mainloop()
-
-Dashboard("User")
