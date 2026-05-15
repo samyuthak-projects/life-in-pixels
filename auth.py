@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import bcrypt
 from storage import load_users, save_users
 from dashboard import Dashboard
 
@@ -41,7 +42,12 @@ class Auth:
             self.message.configure(text="Please fill in all fields!", text_color="red")
             return
         
-        self.users[username] = {"password": password}
+        if len(password) < 6:
+            self.message.configure(text="Password must be at least 6 characters!", text_color="red")
+            return
+        
+        hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        self.users[username] = {"password": hashed_password}
         save_users(self.users)
 
         self.message.configure(text="Account created! Please log in.", text_color="green")
@@ -54,7 +60,9 @@ class Auth:
             self.message.configure(text="User not found!", text_color="red")
             return
         
-        if self.users[username]["password"] != password:
+        stored_password = self.users[username]["password"].encode()
+
+        if not bcrypt.checkpw(password.encode(), stored_password):
             self.message.configure(text="Incorrect password!", text_color="red")
             return
         
