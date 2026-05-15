@@ -7,7 +7,7 @@ class Auth:
     def __init__(self):
         self.window = ctk.CTk()
         self.window.title("Life in Pixels - Login")
-        self.window.geometry("700x500")
+        self.window.geometry("600x600")
         ctk.set_appearance_mode("light")
 
         self.users = load_users()
@@ -66,8 +66,9 @@ class Auth:
             self.message.configure(text="Incorrect password!", text_color="red")
             return
         
-        self.window.destroy()
-        Dashboard(username)
+        self.window.withdraw()
+        dashboard =Dashboard(username)
+        dashboard.run()
 
     def run(self):
         self.window.mainloop()
