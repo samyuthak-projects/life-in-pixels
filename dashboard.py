@@ -31,4 +31,8 @@ class Dashboard:
             "😴 Tired": "purple"
         }
 
+        for mood in self.mood_options:
+            button = ctk.CTkButton(self.mood_frame, text=mood, command=lambda m=mood: self.save_today_mood(m))
+            button.pack(pady=5)
+
         self.window.mainloop()
