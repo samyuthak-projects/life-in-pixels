@@ -41,6 +41,12 @@ class Dashboard:
         self.streak_label = ctk.CTkLabel(self.window, text="🔥 Streak: 0 days", font=("Helvetica", 18, "bold"))
         self.streak_label.pack(pady=10)
 
+        self.pixel_title = ctk.CTkLabel(self.window, text="Your Mood in Pixels", font=ctk.CTkFont("Helvetica", 22, weight="bold"))
+        self.pixel_title.pack(pady=20)
+
+        self.pixel_frame = ctk.CTkFrame(self.window, fg_color="#1f1f1f")
+        self.pixel_frame.pack(pady=10)
+
         self.update_streak()
 
     def update_streak(self):
