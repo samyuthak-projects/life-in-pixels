@@ -94,6 +94,8 @@ class Dashboard:
             color = self.mood_options.get(mood, "gray")
             pixel = ctk.CTkFrame(self.pixel_frame, width=20, height=20, fg_color=color)
             pixel.grid(row=row, column=col, padx=2, pady=2)
+            pixel.bind("<Enter>", lambda e, d=day, m=mood: self.status_label.configure(text=f"{d}: {m}"))
+            pixel.bind("<Leave>", lambda e: self.status_label.configure(text=f"Saved today's mood: {mood}"))
 
             col += 1
             if col >= 7:
