@@ -24,11 +24,11 @@ class Dashboard:
         self.mood_frame.pack(pady=10)
 
         self.mood_options = {
-            "😄 Amazing": "green",
-            "🙂 Good": "blue",
-            "😐 Neutral": "yellow",
-            "😔 Bad": "red",
-            "😴 Tired": "purple"
+            "😄 Amazing": "#57cc99",
+            "🙂 Good": "#3498db",
+            "😐 Neutral": "#f1c40f",
+            "😔 Bad": "#e74c3c",
+            "😴 Tired": "#9b59b6"
         }
 
         for mood in self.mood_options:
@@ -48,6 +48,7 @@ class Dashboard:
         self.pixel_frame.pack(pady=10)
 
         self.update_streak()
+        self.generate_pixel_grid()
 
     def update_streak(self):
         if self.username not in self.moods:
@@ -69,7 +70,30 @@ class Dashboard:
             text=f"Saved today's mood: {mood}"
         )
 
+        self.generate_pixel_grid()
+
         self.update_streak()
+
+    def generate_pixel_grid(self):
+        for widget in self.pixel_frame.winfo_children():
+            widget.destroy()
+
+        if self.username not in self.moods:
+            return
+        
+        user_moods = list(self.moods[self.username].items())
+        row=0
+        col=0
+
+        for day, mood in user_moods:
+            color = self.mood_options.get(mood, "gray")
+            pixel = ctk.CTkFrame(self.pixel_frame, width=20, height=20, fg_color=color)
+            pixel.grid(row=row, column=col, padx=2, pady=2)
+
+            col += 1
+            if col >= 7:
+                col = 0
+                row += 1
 
     def run(self):
         self.window.mainloop()
