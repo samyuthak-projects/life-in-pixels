@@ -5,13 +5,14 @@ from datetime import date
 class Dashboard:
     def __init__(self, username):
         self.username = username
-        self.window = ctk.CTkToplevel()
+        self.window = ctk.CTk()
         self.scrollable_frame = ctk.CTkScrollableFrame(self.window, width=650, height=500)
         self.scrollable_frame.pack(fill="both", expand=True, pady=20, padx=20)
         self.window.title("Life in Pixels")
         self.window.geometry("600x600")
         ctk.set_appearance_mode("light")
         self.moods = load_moods()
+        self.today = str(date.today())
 
         self.theme_switch = ctk.CTkSwitch(self.scrollable_frame, text="Dark Mode", command=self.toggle_theme)
         self.theme_switch.pack(pady=10)
@@ -56,6 +57,9 @@ class Dashboard:
         self.stats_label = ctk.CTkLabel(self.scrollable_frame, text="", font=("Helvetica", 16))
         self.stats_label.pack(pady=20)
 
+        if self.username in self.moods and self.today in self.moods[self.username]:
+            self.status_label.configure(text=f"Today's pixel has been added!")
+
         self.update_streak()
         self.generate_pixel_grid()
         self.update_stats()
@@ -84,9 +88,7 @@ class Dashboard:
         self.moods[self.username][today] = mood
         save_moods(self.moods)
 
-        self.status_label.configure(
-            text=f"Today's pixel has been added!"
-        )
+        self.status_label.configure(text=f"Today's pixel has been added!")
 
         self.generate_pixel_grid()
         self.update_streak()

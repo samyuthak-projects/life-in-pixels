@@ -66,8 +66,11 @@ class Auth:
             self.message.configure(text="Incorrect password!", text_color="red")
             return
         
-        self.window.withdraw()
-        dashboard =Dashboard(username)
+        self.window.after(50, lambda: self.open_dashboard(username))
+
+    def open_dashboard(self, username):
+        self.window.destroy()
+        dashboard = Dashboard(username)
         dashboard.run()
 
     def run(self):
