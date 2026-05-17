@@ -13,6 +13,9 @@ class Dashboard:
         ctk.set_appearance_mode("light")
         self.moods = load_moods()
 
+        self.theme_switch = ctk.CTkSwitch(self.scrollable_frame, text="Dark Mode", command=self.toggle_theme)
+        self.theme_switch.pack(pady=10)
+
         self.title = ctk.CTkLabel(self.scrollable_frame, text=f"Hello, {username} ☀", font=ctk.CTkFont("Helvetica", 32, weight="bold"))
         self.title.pack(pady=40)
 
@@ -55,6 +58,14 @@ class Dashboard:
         self.update_streak()
         self.generate_pixel_grid()
         self.update_stats()
+
+    def toggle_theme(self):
+        if self.theme_switch.get() == 1:
+            ctk.set_appearance_mode("dark")
+            self.title.configure(text=f"Hello, {self.username} 🌙")
+        else:
+            ctk.set_appearance_mode("light")
+            self.title.configure(text=f"Hello, {self.username} ☀")
 
     def update_streak(self):
         if self.username not in self.moods:
