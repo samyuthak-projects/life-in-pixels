@@ -47,8 +47,12 @@ class Dashboard:
         self.pixel_frame = ctk.CTkFrame(self.window, fg_color="#1f1f1f")
         self.pixel_frame.pack(pady=10)
 
+        self.stats_label = ctk.CTkLabel(self.window, text="", font=("Helvetica", 16))
+        self.stats_label.pack(pady=20)
+
         self.update_streak()
         self.generate_pixel_grid()
+        self.update_stats()
 
     def update_streak(self):
         if self.username not in self.moods:
@@ -73,6 +77,7 @@ class Dashboard:
         self.generate_pixel_grid()
 
         self.update_streak()
+        self.update_stats()
 
     def generate_pixel_grid(self):
         for widget in self.pixel_frame.winfo_children():
@@ -94,6 +99,14 @@ class Dashboard:
             if col >= 7:
                 col = 0
                 row += 1
+
+    def update_stats(self):
+        if self.username not in self.moods:
+            self.stats_label.configure(text="No mood data available.")
+            return
+        
+        entries = len(self.moods[self.username])
+        self.stats_label.configure(text=f"You have logged your mood for {entries} days.")
 
     def run(self):
         self.window.mainloop()
