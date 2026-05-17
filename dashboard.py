@@ -37,7 +37,8 @@ class Dashboard:
         }
 
         for mood in self.mood_options:
-            button = ctk.CTkButton(self.mood_frame, text=mood, command=lambda m=mood: self.save_today_mood(m))
+            mood_color = self.mood_options[mood]
+            button = ctk.CTkButton(self.mood_frame, text=mood, fg_color=mood_color, hover_color=mood_color, text_color="white", width=180, height=40, font=ctk.CTkFont("Helvetica", 14, weight="bold"), command=lambda m=mood: self.save_today_mood(m))
             button.pack(pady=5)
 
         self.status_label = ctk.CTkLabel(self.scrollable_frame, text="No mood logged today.", font=("Helvetica", 16))
@@ -84,11 +85,10 @@ class Dashboard:
         save_moods(self.moods)
 
         self.status_label.configure(
-            text=f"Saved today's mood: {mood}"
+            text=f"Today's pixel has been added!"
         )
 
         self.generate_pixel_grid()
-
         self.update_streak()
         self.update_stats()
 
@@ -108,7 +108,7 @@ class Dashboard:
             pixel = ctk.CTkFrame(self.pixel_frame, width=20, height=20, fg_color=color)
             pixel.grid(row=row, column=col, padx=2, pady=2)
             pixel.bind("<Enter>", lambda e, d=day, m=mood: self.status_label.configure(text=f"{d}: {m}"))
-            pixel.bind("<Leave>", lambda e: self.status_label.configure(text=f"Saved today's mood: {mood}"))
+            pixel.bind("<Leave>", lambda e: self.status_label.configure(text=f"Today's pixel has been added!"))
 
             col += 1
             if col >= 7:
